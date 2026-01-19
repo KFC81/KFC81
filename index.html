@@ -12,10 +12,24 @@
 <body>
   <h1>KFC81 Dev Log</h1>
 
-  <div class="entry">
-    <div class="date">2026-01-19</div>
-    <p>Site live! First dev log entry. Nothing broke (yet).</p>
-  </div>
+  <div id="log"></div>
 
+  <script>
+    async function loadEntries() {
+      const folder = 'entries/';
+      const files = ['2026-01-19-first-entry.md']; // add new files here
+      const container = document.getElementById('log');
+
+      for (let file of files.reverse()) {
+        const text = await fetch(folder + file).then(r => r.text());
+        const date = file.split('-').slice(0,3).join('-');
+        const div = document.createElement('div');
+        div.className = 'entry';
+        div.innerHTML = `<div class="date">${date}</div><p>${text}</p>`;
+        container.appendChild(div);
+      }
+    }
+    loadEntries();
+  </script>
 </body>
 </html>
